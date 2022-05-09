@@ -294,7 +294,16 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
             
             # POWDER SNOW # TYPE 15
-            elif "" in log:
+            elif "froze to death" in log:
+                # <player> froze to death
+                guardaMuerteBBDD(player, date, hora, 15, '', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "frozen to death by" in log:
+                killer = log.split("death by ")[1]
+                # <player> was frozen to death by <player/mob>
+                guardaMuerteBBDD(player, date, hora, 15, killer, '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # PLAYERS AND MOBS # TYPE 16
             elif "" in log:
