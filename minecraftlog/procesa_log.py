@@ -166,14 +166,27 @@ def procesalog(log, date):
                 guardaMuerteBBDD(player, date, hora, 7, '', '')
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
                 
-            elif "fell from" in log or "fell off" in log:
+            elif "fell from" in log or "fell off" in log or "fell while" in log or "fell out of the water" in log:
                 # <player> fell off a ladder
                 # <player> fell off some vines
                 # <player> fell off some weeping vines
                 # <player> fell off some twisting vines
                 # <player> fell off scaffolding
+                # <player> fell while climbing
                 # <player> fell from a high place
+                # <player> fell out of the water
                 guardaMuerteBBDD(player, date, hora, 7, '', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "was impaled on a stalagmite" in log:
+                if "fighting" in log:
+                    killer = log.split("fighting ")[1]
+                    # <player> was impaled on a stalagmite whilst fighting <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 7, killer, '')
+                else:
+                    # <player> was impaled on a stalagmite
+                    guardaMuerteBBDD(player, date, hora, 7, '', '')
+                    
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # FALLING BLOCKS # TYPE 8
