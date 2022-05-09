@@ -257,8 +257,17 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
                 
             # MAGMA BLOCK # TYPE 13
-            elif "" in log:
-
+            elif "discovered the floor was lava" in log:
+                # <player> discovered the floor was lava
+                guardaMuerteBBDD(player, date, hora, 13, '', '')    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "walked into danger zone due to" in log:
+                killer = log.split("due to ")[1]
+                # <player> walked into danger zone due to <player/mob>
+                guardaMuerteBBDD(player, date, hora, 13, killer, '')    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
             # MAGIC # TYPE 14
             elif "" in log:
             
