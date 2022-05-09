@@ -220,7 +220,7 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
                 
             # FIREWORK ROCKETS # TYPE 10
-            elif "went off with a bang" in log:
+            elif "went off with a bang" in log and "whilst" not in log:
                 if "from" in log:
                     killer = log.split("by ")[1]
                     item = log.split(" by ")[0].split(" from ")[1]
@@ -332,7 +332,7 @@ def procesalog(log, date):
                     
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
                 
-            elif "was stung to death" in log:
+            elif "was stung to death" in log and "by" not in log:
                 # <player> was stung to death
                 guardaMuerteBBDD(player, date, hora, 16, '', '')  
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
@@ -477,9 +477,75 @@ def procesalog(log, date):
                     
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
                 
-            # GENERIC DEATH # TYPE 25Ç
-            elif "" in log:
+            # GENERIC DEATH # TYPE 25
+            elif "died because" in log:
+                killer = log.split("because of ")[1]
+                # <player> died because of <player/mob>
+                guardaMuerteBBDD(player, date, hora, 25, killer, '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "roasted in dragon breath" in log:
+                if "by" in log:
+                    killer = log.split("by ")[1]
+                    # <player> was roasted in dragon breath by <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 25, killer, '')
+                else:
+                    # <player> was roasted in dragon breath
+                    guardaMuerteBBDD(player, date, hora, 25, '', '')
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "was doomed to fall" in log:
+                if "by" in log:
+                    if "using" in log:
+                        item = log.split("using ")[1]
+                        killer = log.split(" using ")[0].split(" by ")[1]
+                        # <player> was doomed to fall by <player/mob> using <item>
+                        guardaMuerteBBDD(player, date, hora, 25, killer, item)
+                    else:
+                        killer = log.split("by ")[1]
+                        # <player> was doomed to fall by <player/mob>
+                        guardaMuerteBBDD(player, date, hora, 25, killer, '')
+                else:
+                    # <player> was doomed to fall
+                    guardaMuerteBBDD(player, date, hora, 25, '', '')
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
+            elif "was finished by" in log:
+                if "using" in log:
+                    item = log.split("using ")[1]
+                    killer = log.split(" using ")[0].split(" by ")[1]
+                    # <player> fell too far and was finished by <player/mob> using <item>
+                    guardaMuerteBBDD(player, date, hora, 25, killer, item)
+                else:
+                    killer = log.split("by ")[1]
+                    # <player> fell too far and was finished by <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 25, killer, '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "was stung to death by" in log:
+                killer = log.split("by ")[1]
+                # <player> was stung to death by <player/mob>
+                guardaMuerteBBDD(player, date, hora, 25, killer, '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "went off with a bang whilst" in log:
+                killer = log.split("fighting ")[1]
+                # <player> went off with a bang whilst fighting <player/mob>
+                guardaMuerteBBDD(player, date, hora, 25, killer, '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+              
+            elif "was killed by even more magic" in log:
+                # <player> was killed by even more magic
+                guardaMuerteBBDD(player, date, hora, 25, '', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+           
+            elif "died" in log:
+                # <player> died
+                guardaMuerteBBDD(player, date, hora, 25, '', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
             # TEMPORARY # TYPE 26
             elif "" in log:
 
