@@ -220,7 +220,16 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
                 
             # FIREWORK ROCKETS # TYPE 10
-            elif "" in log:
+            elif "went off with a bang" in log:
+                if "from" in log:
+                    killer = log.split("by ")[1]
+                    item = log.split(" by ")[0].split(" from ")[1]
+                    # <player> went off with a bang due to a firework fired from <item> by <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 10, killer, item)
+                else:
+                    # <player> went off with a bang
+                    guardaMuerteBBDD(player, date, hora, 10, '', '')  
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # LAVA # TYPE 11
             elif "" in log:
