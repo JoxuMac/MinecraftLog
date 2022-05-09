@@ -442,7 +442,16 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
     
             # VOID # TYPE 22
-            elif "" in log:
+            elif "fell out of the world" in log:
+                # <player> fell out of the world
+                guardaMuerteBBDD(player, date, hora, 22, '', '')           
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "live in the same world" in log:
+                killer = log.split(" same world as ")[1]
+                # <player> didn't want to live in the same world as <player/mob>
+                guardaMuerteBBDD(player, date, hora, 22, killer, '')           
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # WITHER EFFECT # TYPE 23
             elif "" in log:
