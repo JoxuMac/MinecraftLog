@@ -229,10 +229,20 @@ def procesalog(log, date):
                 else:
                     # <player> went off with a bang
                     guardaMuerteBBDD(player, date, hora, 10, '', '')  
+                    
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # LAVA # TYPE 11
-            elif "" in log:
+            elif "tried to swim in lava" in log:
+                if "escape" in log:
+                    killer = log.split("escape ")[1]
+                    # <player> tried to swim in lava to escape <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 11, killer, '')  
+                else:
+                    # <player> tried to swim in lava
+                    guardaMuerteBBDD(player, date, hora, 11, '', '')  
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # LIGHTNING # TYPE 12
             elif "" in log:
