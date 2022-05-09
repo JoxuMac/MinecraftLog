@@ -379,10 +379,39 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
     
             # SUFFOCATION # TYPE 18
-            elif "" in log:
+            elif "suffocated in a wall" in log:
+                if "fighting" in log:
+                    killer = log.split("fighting ")[1]
+                    # <player> suffocated in a wall whilst fighting <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 18, killer, '')
+                else:
+                    #<player> suffocated in a wall
+                    guardaMuerteBBDD(player, date, hora, 18, '', '')
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
+            elif "was squished too much" in log:
+                #<player> was squished too much
+                guardaMuerteBBDD(player, date, hora, 18, '', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "was squashed by" in log:
+                killer = log.split("by ")[1]
+                #<player> was squashed by <player/mob>
+                guardaMuerteBBDD(player, date, hora, 18, killer, '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
             # SWEET BERRY BUSHES # TYPE 19
-            elif "" in log:
+            elif "was poked to death by a sweet berry bush" in log:
+                if "escape" in log:
+                    killer = log.split("escape ")[1]
+                    # <player> was poked to death by a sweet berry bush whilst trying to escape <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 19, killer, '')
+                else:
+                    # <player> was poked to death by a sweet berry bush
+                    guardaMuerteBBDD(player, date, hora, 19, '', '')
+                
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # THORNS # TYPE 20
             elif "" in log:
