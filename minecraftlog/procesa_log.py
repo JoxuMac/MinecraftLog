@@ -156,7 +156,25 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # FALLING # TYPE 7
-            elif "" in log:
+            elif "hit the ground too hard" in log:
+                if "escape" in log:
+                    killer = log.split("to escape ")[1]
+                    # <player> hit the ground too hard whilst trying to escape <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 7, killer, '')
+                else:
+                # <player> hit the ground too hard
+                guardaMuerteBBDD(player, date, hora, 7, '', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "fell from" in log or "fell off" in log:
+                # <player> fell off a ladder
+                # <player> fell off some vines
+                # <player> fell off some weeping vines
+                # <player> fell off some twisting vines
+                # <player> fell off scaffolding
+                # <player> fell from a high place
+                guardaMuerteBBDD(player, date, hora, 7, '', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # FALLING BLOCKS # TYPE 8
             elif "" in log:
