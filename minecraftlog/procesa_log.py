@@ -306,8 +306,54 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # PLAYERS AND MOBS # TYPE 16
-            elif "" in log:
-
+            elif "was slain by" in log:
+                if "using" in log:
+                    item = log.split("using ")[1]
+                    killer = log.split(" using ")[0].split("slain by ")[1]
+                    # <player> was slain by <player/mob> using <item>
+                    guardaMuerteBBDD(player, date, hora, 16, killer, item)
+                else:
+                    killer = log.split("slain by ")[1]
+                    # <player> was slain by <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 16, killer, '')
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+             
+            elif "was fireballed by" in log:
+                if "using" in log:
+                    item = log.split("using ")[1]
+                    killer = log.split(" using ")[0].split("fireballed by ")[1]
+                    # <player> was fireballed by <player/mob> using <item>
+                    guardaMuerteBBDD(player, date, hora, 16, killer, item)
+                else:
+                    killer = log.split("fireballed by ")[1]
+                    # <player> was fireballed by <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 16, killer, '')
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "was stung to death" in log:
+                # <player> was stung to death
+                guardaMuerteBBDD(player, date, hora, 16, '', '')  
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+               
+            elif "sonically-charged shriek" in log:
+                if "escape" in log:
+                    killer = log.split("escape ")[1]
+                    # <player> was obliterated by a sonically-charged shriek whilst trying to escape <player/mob>‌
+                    guardaMuerteBBDD(player, date, hora, 16, killer, '')
+                else:
+                    # <player> was obliterated by a sonically-charged shriek
+                    guardaMuerteBBDD(player, date, hora, 16, '', '')
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+            
+            elif "was shot by" in log and "skull from" in log:
+                killer = log.split("from ")[1]
+                # <player> was shot by a skull from <player/mob>
+                guardaMuerteBBDD(player, date, hora, 16, killer, '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+             
             # STARVING # TYPE 17
             elif "" in log:
 
