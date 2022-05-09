@@ -547,8 +547,17 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
                 
             # TEMPORARY # TYPE 26
-            elif "" in log:
-
+            elif "was too soft for this world" in log:
+                if "helped" in log:
+                    killer = log.split(" helped")[0].split("world ")[1]
+                    # <player> was too soft for this world (<player/mob> helped)
+                    guardaMuerteBBDD(player, date, hora, 26, killer, '')
+                else:
+                    # <player> was too soft for this world
+                    guardaMuerteBBDD(player, date, hora, 26, '', '')
+                
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
             # GUARDO LINEA DESCONOCIDA DE LOG DE JUGADOR
             else:
                 guardaLineaDesconocidaLogBBDD(player, date, hora, log)
