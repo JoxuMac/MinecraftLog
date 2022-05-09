@@ -466,8 +466,17 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # DRYING OUT # TYPE 24
-            elif "" in log:
-
+            elif "died from dehydration" in log:
+                if "escape" in log:
+                    killer = log.split("escape ")[1]
+                    # <player> died from dehydration whilst trying to escape <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 24, killer, '')
+                else:
+                    # <player> died from dehydration
+                    guardaMuerteBBDD(player, date, hora, 24, '', '') 
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
             # GENERIC DEATH # TYPE 25Ç
             elif "" in log:
 
