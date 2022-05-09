@@ -206,8 +206,19 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # FIRE # TYPE 9
-            elif "" in log:
-
+            elif "went up" in log or "burned to death" in log:
+                # <player> went up in flames
+                # <player> burned to death
+                guardaMuerteBBDD(player, date, hora, 9, '', '')    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "was burnt" in log or "walked into fire" in log:
+                killer = log.split("fighting ")[1]
+                # <player> walked into fire whilst fighting <player/mob>
+                # <player> was burnt to a crisp whilst fighting <player/mob>
+                guardaMuerteBBDD(player, date, hora, 9, killer, '')    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
             # FIREWORK ROCKETS # TYPE 10
             elif "" in log:
 
