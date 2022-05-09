@@ -190,7 +190,20 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # FALLING BLOCKS # TYPE 8
-            elif "" in log:
+            elif "was squashed by a falling" in log or "was skewered by a falling" in log:
+                if "fighting" in log:
+                    killer = log.split("fighting ")[1]
+                    # <player> was squashed by a falling anvil whilst fighting <player/mob>
+                    # <player> was squashed by a falling block whilst fighting <player/mob>
+                    # <player> was skewered by a falling stalactite whilst fighting <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 8, killer, '')
+                else:
+                    # <player> was squashed by a falling anvil
+                    # <player> was squashed by a falling block
+                    # <player> was skewered by a falling stalactite
+                    guardaMuerteBBDD(player, date, hora, 8, '', '')
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # FIRE # TYPE 9
             elif "" in log:
