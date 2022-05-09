@@ -419,17 +419,28 @@ def procesalog(log, date):
                     killer = log.split("hurt ")[1]
                     item = log.split(" trying to hurt ")[0].split("by ")[1]
                     # <player> was killed by <item> trying to hurt <player/mob>
-                    guardaMuerteBBDD(player, date, hora, 19, killer, item)
+                    guardaMuerteBBDD(player, date, hora, 20, killer, item)
                 else:
                     killer = log.split("hurt ")[1]
                     # <player> was killed trying to hurt <player/mob>
-                    guardaMuerteBBDD(player, date, hora, 19, killer, '')
+                    guardaMuerteBBDD(player, date, hora, 20, killer, '')
                     
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # TRIDENT # TYPE 21
-            elif "" in log:
-
+            elif "was impaled by" in log:
+                if "with" in log:
+                    item = log.split("with ")[1]
+                    killer = log.split(" with ")[0].split(" by ")[1]
+                    # <player> was impaled by <player/mob> with <item>
+                    guardaMuerteBBDD(player, date, hora, 21, killer, item)
+                else:
+                    killer = log.split("by ")[1]
+                    # <player> was impaled by <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 21, killer, '')
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+    
             # VOID # TYPE 22
             elif "" in log:
 
