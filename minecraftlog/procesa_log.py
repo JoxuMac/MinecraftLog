@@ -245,8 +245,17 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # LIGHTNING # TYPE 12
-            elif "" in log:
-
+            elif "was struck by lightning" in log:
+                if "fighting" in log:
+                    killer = log.split("fighting ")[1]
+                    # <player> was struck by lightning whilst fighting <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 12, killer, '')  
+                else:
+                    # <player> was struck by lightning
+                    guardaMuerteBBDD(player, date, hora, 12, '', '')  
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
             # MAGMA BLOCK # TYPE 13
             elif "" in log:
 
