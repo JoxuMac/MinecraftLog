@@ -132,7 +132,28 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # EXPLOSIONS # TYPE 6
-            elif "" in log:
+            elif "blew up" in log:
+                # <player> blew up
+                guardaMuerteBBDD(player, date, hora, 6, '', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+            
+            elif "was blown up by" in log:
+                if "using" in log:
+                    item = log.split("using ")[1]
+                    killer = log.split(" using ")[0].split("was blown up by ")[1]
+                    # <player> was blown up by <player/mob> using <item>
+                    guardaMuerteBBDD(player, date, hora, 6, killer, item)
+                else:
+                    killer = log.split("was blown up by ")[1]
+                    # <player> was blown up by <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 6, killer, '')
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+
+            elif "was killed by [Intentional Game Design]" in log:
+                # <player> was killed by [Intentional Game Design]
+                guardaMuerteBBDD(player, date, hora, 6, '[Intentional Game Design]', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # FALLING # TYPE 7
             elif "" in log:
