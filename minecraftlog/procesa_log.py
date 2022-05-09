@@ -414,7 +414,18 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # THORNS # TYPE 20
-            elif "" in log:
+            elif "trying to hurt" in log:
+                if "by" in log:
+                    killer = log.split("hurt ")[1]
+                    item = log.split(" trying to hurt ")[0].split("by ")[1]
+                    # <player> was killed by <item> trying to hurt <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 19, killer, item)
+                else:
+                    killer = log.split("hurt ")[1]
+                    # <player> was killed trying to hurt <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 19, killer, '')
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # TRIDENT # TYPE 21
             elif "" in log:
