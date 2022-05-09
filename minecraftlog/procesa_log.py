@@ -162,8 +162,8 @@ def procesalog(log, date):
                     # <player> hit the ground too hard whilst trying to escape <player/mob>
                     guardaMuerteBBDD(player, date, hora, 7, killer, '')
                 else:
-                # <player> hit the ground too hard
-                guardaMuerteBBDD(player, date, hora, 7, '', '')
+                    # <player> hit the ground too hard
+                    guardaMuerteBBDD(player, date, hora, 7, '', '')
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
                 
             elif "fell from" in log or "fell off" in log or "fell while" in log or "fell out of the water" in log:
@@ -269,7 +269,29 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
                 
             # MAGIC # TYPE 14
-            elif "" in log:
+            elif "was killed by magic" in log:
+                if "escape" in log:
+                    killer = log.split("escape ")[1]
+                    # <player> was killed by magic whilst trying to escape <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 14, killer, '')
+                else:
+                    # <player> was killed by magic
+                    guardaMuerteBBDD(player, date, hora, 14, '', '')    
+                
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "using magic" in log:
+                killer = log.split("using magic")[0].split("killed by ")[1]
+                # <player> was killed by <player/mob> using magic
+                guardaMuerteBBDD(player, date, hora, 14, killer, '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "was killed by" in log and "using" in log:
+                item = log.split("using ")[1]
+                killer = log.split(" using ")[0].split("killed by ")[1]
+                #<player> was killed by <player/mob> using <item>
+                guardaMuerteBBDD(player, date, hora, 14, killer, item)
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
             
             # POWDER SNOW # TYPE 15
             elif "" in log:
