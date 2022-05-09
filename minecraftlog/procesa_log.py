@@ -454,7 +454,16 @@ def procesalog(log, date):
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # WITHER EFFECT # TYPE 23
-            elif "" in log:
+            elif "withered away" in log:
+                if "fighting" in log:
+                    killer = log.split("fighting ")[1]
+                    # <player> withered away whilst fighting <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 23, killer, '')
+                else:
+                    # <player> withered away
+                    guardaMuerteBBDD(player, date, hora, 23, '', '') 
+                    
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
 
             # DRYING OUT # TYPE 24
             elif "" in log:
