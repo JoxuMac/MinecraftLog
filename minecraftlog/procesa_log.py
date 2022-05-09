@@ -353,10 +353,31 @@ def procesalog(log, date):
                 # <player> was shot by a skull from <player/mob>
                 guardaMuerteBBDD(player, date, hora, 16, killer, '')
                 guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "death.attack.sting.item" in log:
+                # death.attack.sting.item
+                # BUG REQUEST : https://bugs.mojang.com/browse/MC-186851
+                guardaMuerteBBDD(player, date, hora, 16, '', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+                
+            elif "death.attack.witherSkull.item" in log:
+                # death.attack.witherSkull.item
+                # BUG REQUEST : https://bugs.mojang.com/browse/MC-186148
+                guardaMuerteBBDD(player, date, hora, 16, '', '')
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
              
             # STARVING # TYPE 17
-            elif "" in log:
+            elif "starved to death" in log:
+                if "fighting" in log:
+                    killer = log.split("fighting ")[1]
+                    # <player> starved to death
+                    guardaMuerteBBDD(player, date, hora, 17, killer, '')
+                else:
+                    # <player> starved to death whilst fighting <player/mob>
+                    guardaMuerteBBDD(player, date, hora, 17, '', '')
 
+                guardaLineaConocidaLogBBDD(player, date, hora, log)
+    
             # SUFFOCATION # TYPE 18
             elif "" in log:
 
