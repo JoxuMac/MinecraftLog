@@ -3,10 +3,13 @@
 # IMPORTS
 import fileinput
 from datetime import datetime
+import requests
+import json
 
 playersFile = "players"
 path = 'espcraft-logs'
 players = []
+url = 'http://localhost:8080/espcraft/t3/api.php'
 
 def main():
     loadPlayersFromFile()
@@ -579,31 +582,73 @@ def savePlayerInFile(player):
     playersfile.close()
 
 def guardaJugadorBBDD(player):
-    #TODO
-    print('TODO')
+    obj = {
+        "msg" : "guardaJugadorBBDD",
+        "player" : player
+    }
+    doPeticion(url, obj)
 
 def actualizaHoraEntradaBBDD(player, date, hora):
-    #TODO
-    print('TODO')
+    obj = {
+        "msg" : "actualizaHoraEntradaBBDD",
+        "player" : player,
+        "date" : date,
+        "time" : hora
+    }
+    doPeticion(url, obj)
 
 def actualizaHorasJugandoBBDD(player, date, hora):
-    #TODO
-    print('TODO')
+    obj = {
+        "msg" : "actualizaHorasJugandoBBDD",
+        "player" : player,
+        "date" : date,
+        "time" : hora
+    }
+    doPeticion(url, obj)
 
 def guardaLogroBBDD(player, date, hora, logro):
-    #TODO
-    print('TODO')
+    obj = {
+        "msg" : "guardaLogroBBDD",
+        "player" : player,
+        "date" : date,
+        "time" : hora,
+        "logro" : logro
+    }
+    doPeticion(url, obj)
 
 def guardaLineaDesconocidaLogBBDD(player, date, hora, log):
-    #TODO
-    print('TODO')
+    obj = {
+        "msg" : "guardaLineaDesconocidaLogBBDD",
+        "player" : player,
+        "date" : date,
+        "time" : hora,
+        "log" : log
+    }
+    doPeticion(url, obj)
 
 def guardaMuerteBBDD(player, date, hora, tipo, killer, item):
-    #TODO
-    print('TODO')
+    obj = {
+        "msg" : "guardaMuerteBBDD",
+        "player" : player,
+        "date" : date,
+        "time" : hora,
+        "tipo" : tipo,
+        "killer" : killer,
+        "item" : item
+    }
+    doPeticion(url, obj)
 
 def guardaLineaConocidaLogBBDD(player, date, hora, log):
-    #TODO
-    print('TODO')
+    obj = {
+        "msg" : "guardaLineaConocidaLogBBDD",
+        "player" : player,
+        "date" : date,
+        "time" : hora,
+        "log" : log
+    }
+    doPeticion(url, obj)
 
+def doPeticion(url, obj):
+    r = requests.post(url, data={"json":json.dumps(obj, indent=4, sort_keys=True)})
+    
 main()
