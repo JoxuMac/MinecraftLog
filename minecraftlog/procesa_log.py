@@ -33,11 +33,11 @@ def procesalog(log, date):
     if "joined the game" in log:
         # JUGADOR NUEVO
         if player not in players:
-            player = (' '.join(log.split("joined the game")).split(" "))
+            player = (''.join(log.split("joined the game")).split(" "))
             player.pop(0)
             player.pop(0)
             player.pop(0)
-            player = ' '.join(player)
+            player = ''.join(player)
             # GUARDO JUGADOR EN BBDD
             guardaJugadorBBDD(player)
 
